@@ -9,11 +9,11 @@
 <header><div class="logo">V</div><div><h1>VALERI FINANCE</h1><p>Личен финансов дневник</p></div></header>
 <section id="loginView" class="panel login">
 <h2>Вход в профила</h2><label>Потребител<input id="username" autocomplete="username"></label>
-<label>Парола<input id="password" type="password" autocomplete="current-password"></label>
+<label>Парола<input id="password" type="password" autocomplete="current-password"></label><label>Код за първоначална регистрация<input id="bootstrapKey" type="password" autocomplete="off" placeholder="Само при създаване на първия профил"></label>
 <button id="loginBtn">Вход</button><button id="registerBtn" class="secondary">Създай първия профил</button><p id="loginError" class="error"></p>
 <p class="hint">Първата регистрация е разрешена само веднъж. Използвай парола поне 10 знака.</p></section>
 <section id="appView" class="hidden">
-<div class="top"><div><h2>Финансово табло</h2><p>Здравей, <span id="welcomeName"></span>!</p></div><div><button id="exportBtn" class="secondary">Експорт CSV</button><button id="logoutBtn" class="secondary">Изход</button></div></div>
+<div class="top"><div><h2>Финансово табло</h2><p>Здравей, <span id="welcomeName"></span>!</p></div><div><button id="exportBtn" class="secondary">Експорт CSV</button><label class="importLabel">Импорт CSV<input id="importFile" type="file" accept=".csv,text/csv"></label><button id="logoutBtn" class="secondary">Изход</button></div></div>
 <div class="cards"><article class="metric"><small>ОБЩО ПОЛУЧИЛ</small><strong id="totalIn">0,00 €</strong><span id="totalInBGN">0,00 лв.</span></article><article class="metric"><small>ОБЩО ИЗПРАТИЛ</small><strong id="totalOut">0,00 €</strong><span id="totalOutBGN">0,00 лв.</span></article><article class="metric"><small>НЕТНО ДВИЖЕНИЕ</small><strong id="balance">0,00 €</strong><span id="balanceBGN">0,00 лв.</span></article><article class="metric"><small>ЗАПИСИ</small><strong id="entryCount">0</strong></article></div>
 <div class="layout"><section class="panel"><h3>Добави движение</h3><form id="entryForm"><input id="editingId" type="hidden">
 <label>Тип<select id="kind"><option value="in">Получил</option><option value="out">Изпратил</option></select></label>
