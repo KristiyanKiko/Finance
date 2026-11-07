@@ -6,7 +6,7 @@
   "d1_databases": [
     {
       "binding": "DB",
-      "database_name": "дани",
+      "database_name": "valeri-finance-db",
       "database_id": "a2a59fbf-2a57-4677-85b1-c7534f4bd33c"
     }
   ]
