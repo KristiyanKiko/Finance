@@ -1,25 +1,105 @@
 <!doctype html>
 <html lang="bg">
+
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Kristiyan Finances — Личен финансов дневник</title>
-<link rel="stylesheet" href="style.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Kristiyan Finances — Личен финансов дневник</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-<body><main class="wrap">
-<header><div class="logo">K</div><div><h1>Kristiyan Finances</h1><p>Личен финансов дневник</p></div></header>
-<section id="loginView" class="panel login">
-<h2>Вход в профила</h2><label>Потребител<input id="username" autocomplete="username"></label>
-<label>Парола<input id="password" type="password" autocomplete="current-password"></label><label>Код за първоначална регистрация<input id="bootstrapKey" type="password" autocomplete="off" placeholder="Само при създаване на първия профил"></label>
-<button id="loginBtn">Вход</button><button id="registerBtn" class="secondary">Създай първия профил</button><p id="loginError" class="error"></p>
-<p class="hint">Първата регистрация е разрешена само веднъж. Използвай парола поне 10 знака.</p></section>
-<section id="appView" class="hidden">
-<div class="top"><div><h2>Финансово табло</h2><p>Здравей, <span id="welcomeName"></span>!</p></div><div><button id="exportBtn" class="secondary">Експорт CSV</button><label class="importLabel">Импорт CSV<input id="importFile" type="file" accept=".csv,text/csv"></label><button id="logoutBtn" class="secondary">Изход</button></div></div>
-<div class="cards"><article class="metric"><small>ОБЩО ПОЛУЧИЛ</small><strong id="totalIn">0,00 €</strong><span id="totalInBGN">0,00 лв.</span></article><article class="metric"><small>ОБЩО ИЗПРАТИЛ</small><strong id="totalOut">0,00 €</strong><span id="totalOutBGN">0,00 лв.</span></article><article class="metric"><small>НЕТНО ДВИЖЕНИЕ</small><strong id="balance">0,00 €</strong><span id="balanceBGN">0,00 лв.</span></article><article class="metric"><small>ЗАПИСИ</small><strong id="entryCount">0</strong></article></div>
-<div class="layout"><section class="panel"><h3>Добави движение</h3><form id="entryForm"><input id="editingId" type="hidden">
-<label>Тип<select id="kind"><option value="in">Получил</option><option value="out">Изпратил</option></select></label>
-<div class="split"><label>Сума<input id="amount" type="number" min="0.01" step="0.01" required></label><label>Валута<select id="currency"><option value="EUR">Евро (€)</option><option value="BGN">Лева (лв.)</option></select></label></div>
-<label>Дата<input id="date" type="date" required></label><label>Бележка<input id="note" maxlength="120"></label>
-<button id="saveEntryBtn">Запази сумата</button><button id="cancelEditBtn" type="button" class="secondary hidden">Откажи редакцията</button></form><p class="hint">Курс: 1 € = 1,95583 лв.</p></section>
-<section class="panel"><div class="top"><h3>История на движенията</h3><button id="clearBtn" class="secondary">Изчисти историята</button></div><div class="tablewrap"><table><thead><tr><th>Дата</th><th>Тип</th><th>Сума</th><th>Бележка</th><th>Еквивалент €</th><th></th></tr></thead><tbody id="entriesBody"></tbody></table><p id="emptyState">Още няма записи.</p></div></section></div>
-<section class="panel"><h3>Калкулатор за връщане</h3><div class="split"><label>Остава за връщане (€)<input id="debt" type="number" value="5000" min="0"></label><label>Месечна вноска (€)<input id="monthly" type="number" value="300" min="0.01"></label><div><small>Необходими месеци</small><strong id="months">17</strong><p id="lastPayment" class="hint"></p></div></div></section>
-</section></main><script src="script.js"></script></body></html>
+
+<body>
+    <main class="wrap">
+        <header>
+            <div class="logo">K</div>
+            <div>
+                <h1>Kristiyan Finances</h1>
+                <p>Личен финансов дневник</p>
+            </div>
+        </header>
+        <section id="loginView" class="panel login">
+            <h2>Вход в профила</h2><label>Потребител<input id="username" autocomplete="username"></label>
+            <label>Парола<input id="password" type="password" autocomplete="current-password"></label><label>Код за
+                първоначална регистрация<input id="bootstrapKey" type="password" autocomplete="off"
+                    placeholder="Само при създаване на първия профил"></label>
+            <button id="loginBtn">Вход</button><button id="registerBtn" class="secondary">Създай първия профил</button>
+            <p id="loginError" class="error"></p>
+            <p class="hint">Първата регистрация е разрешена само веднъж. Използвай парола поне 10 знака.</p>
+        </section>
+        <section id="appView" class="hidden">
+            <div class="top">
+                <div>
+                    <h2>Финансово табло</h2>
+                    <p>Здравей, <span id="welcomeName"></span>!</p>
+                </div>
+                <div><button id="exportBtn" class="secondary">Експорт CSV</button><label class="importLabel">Импорт
+                        CSV<input id="importFile" type="file" accept=".csv,text/csv"></label><button id="logoutBtn"
+                        class="secondary">Изход</button></div>
+            </div>
+            <div class="cards">
+                <article class="metric"><small>ОБЩО ПОЛУЧИЛ</small><strong id="totalIn">0,00 €</strong><span
+                        id="totalInBGN">0,00 лв.</span></article>
+                <article class="metric"><small>ОБЩО ИЗПРАТИЛ</small><strong id="totalOut">0,00 €</strong><span
+                        id="totalOutBGN">0,00 лв.</span></article>
+                <article class="metric"><small>НЕТНО ДВИЖЕНИЕ</small><strong id="balance">0,00 €</strong><span
+                        id="balanceBGN">0,00 лв.</span></article>
+                <article class="metric"><small>ЗАПИСИ</small><strong id="entryCount">0</strong></article>
+            </div>
+            <div class="layout">
+                <section class="panel">
+                    <h3>Добави движение</h3>
+                    <form id="entryForm"><input id="editingId" type="hidden">
+                        <label>Тип<select id="kind">
+                                <option value="in">Получил</option>
+                                <option value="out">Изпратил</option>
+                            </select></label>
+                        <div class="split"><label>Сума<input id="amount" type="number" min="0.01" step="0.01"
+                                    required></label><label>Валута<select id="currency">
+                                    <option value="EUR">Евро (€)</option>
+                                    <option value="BGN">Лева (лв.)</option>
+                                </select></label></div>
+                        <label>Дата<input id="date" type="date" required></label><label>Бележка<input id="note"
+                                maxlength="120"></label>
+                        <button id="saveEntryBtn">Запази сумата</button><button id="cancelEditBtn" type="button"
+                            class="secondary hidden">Откажи редакцията</button>
+                    </form>
+                    <p class="hint">Курс: 1 € = 1,95583 лв.</p>
+                </section>
+                <section class="panel">
+                    <div class="top">
+                        <h3>История на движенията</h3><button id="clearBtn" class="secondary">Изчисти историята</button>
+                    </div>
+                    <div class="tablewrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Дата</th>
+                                    <th>Тип</th>
+                                    <th>Сума</th>
+                                    <th>Бележка</th>
+                                    <th>Еквивалент €</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="entriesBody"></tbody>
+                        </table>
+                        <p id="emptyState">Още няма записи.</p>
+                    </div>
+                </section>
+            </div>
+            <section class="panel">
+                <h3>Калкулатор за връщане</h3>
+                <div class="split"><label>Остава за връщане (€)<input id="debt" type="number" value="5000"
+                            min="0"></label><label>Месечна вноска (€)<input id="monthly" type="number" value="300"
+                            min="0.01"></label>
+                    <div><small>Необходими месеци</small><strong id="months">17</strong>
+                        <p id="lastPayment" class="hint"></p>
+                    </div>
+                </div>
+            </section>
+        </section>
+    </main>
+    <script src="script.js"></script>
+</body>
+
+</html>
