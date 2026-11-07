@@ -1,0 +1,13 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "finance-egf",
+  "compatibility_date": "2026-11-07",
+  "pages_build_output_dir": "./public",
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "дани",
+      "database_id": "a2a59fbf-2a57-4677-85b1-c7534f4bd33c"
+    }
+  ]
+}
