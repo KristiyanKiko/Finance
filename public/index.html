@@ -5,100 +5,224 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Kristiyan Finances — Личен финансов дневник</title>
+    <link rel="preload" as="image" href="hero.jpg">
     <link rel="stylesheet" href="style.css">
 </head>
 
-<body>
-    <main class="wrap">
-        <header>
-            <div class="logo">K</div>
-            <div>
-                <h1>Kristiyan Finances</h1>
-                <p>Личен финансов дневник</p>
-            </div>
-        </header>
-        <section id="loginView" class="panel login">
-            <h2>Вход в профила</h2><label>Потребител<input id="username" autocomplete="username"></label>
-            <label>Парола<input id="password" type="password" autocomplete="current-password"></label><label>Код за
-                първоначална регистрация<input id="bootstrapKey" type="password" autocomplete="off"
+<body class="dim">
+    <div class="bg" aria-hidden="true"></div>
+
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+        <defs>
+            <symbol id="crown" viewBox="0 0 64 44">
+                <path d="M4 38 L8 10 L22 24 L32 4 L42 24 L56 10 L60 38 Z" fill="none" stroke="currentColor"
+                    stroke-width="4" stroke-linejoin="round" stroke-linecap="round" />
+                <path d="M8 42 H56" stroke="currentColor" stroke-width="4" stroke-linecap="round" />
+            </symbol>
+            <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 11 12 3l9 8v10h-6v-6H9v6H3z" fill="currentColor" /></symbol>
+            <symbol id="i-swap" viewBox="0 0 24 24"><path d="M7 7h12l-3-3m3 3-3 3M17 17H5l3-3m-3 3 3 3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></symbol>
+            <symbol id="i-calc" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2" fill="none" stroke="currentColor" stroke-width="2" /><path d="M8 7h8M8 12h2m4 0h2M8 16h2m4 0h2" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></symbol>
+            <symbol id="i-out" viewBox="0 0 24 24"><path d="M10 4H5v16h5M15 8l4 4-4 4M19 12H9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></symbol>
+            <symbol id="i-down" viewBox="0 0 24 24"><path d="M12 4v12m0 0-5-5m5 5 5-5M5 20h14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" /></symbol>
+            <symbol id="i-up" viewBox="0 0 24 24"><path d="M12 16V4m0 0-5 5m5-5 5 5M5 20h14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" /></symbol>
+            <symbol id="i-wallet" viewBox="0 0 24 24"><path d="M4 7a2 2 0 0 1 2-2h11v3M4 7v10a2 2 0 0 0 2 2h14V8H6a2 2 0 0 1-2-1Zm13 5.5h2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></symbol>
+        </defs>
+    </svg>
+
+    <main id="loginView" class="loginWrap">
+        <div class="brand big"><svg class="crown"><use href="#crown" /></svg><span>Kristiyan Finances</span></div>
+        <p class="tag">Plan • Track • Grow</p>
+        <section class="panel login">
+            <h2>Вход в профила</h2>
+            <label>Потребител<input id="username" autocomplete="username"></label>
+            <label>Парола<input id="password" type="password" autocomplete="current-password"></label>
+            <label>Код за първоначална регистрация<input id="bootstrapKey" type="password" autocomplete="off"
                     placeholder="Само при създаване на първия профил"></label>
             <button id="loginBtn">Вход</button><button id="registerBtn" class="secondary">Създай първия профил</button>
             <p id="loginError" class="error"></p>
             <p class="hint">Първата регистрация е разрешена само веднъж. Използвай парола поне 10 знака.</p>
         </section>
-        <section id="appView" class="hidden">
-            <div class="top">
-                <div>
-                    <h2>Финансово табло</h2>
-                    <p>Здравей, <span id="welcomeName"></span>!</p>
+    </main>
+
+    <div id="appView" class="shell hidden">
+        <aside class="side">
+            <div class="brand"><span class="avatar" aria-hidden="true"></span>
+                <div class="brandText"><svg class="crown"><use href="#crown" /></svg><b>Kristiyan Finances</b><small>Plan • Track • Grow</small></div>
+            </div>
+            <nav>
+                <button class="nav active" data-nav="home"><svg><use href="#i-home" /></svg>Начало</button>
+                <button class="nav" data-nav="tx"><svg><use href="#i-swap" /></svg>Транзакции</button>
+                <button class="nav" data-nav="loans"><svg><use href="#i-wallet" /></svg><span class="full">Транзакции заеми</span><span class="short">Заеми</span></button>
+                <button class="nav" data-nav="calc"><svg><use href="#i-calc" /></svg>Калкулатор</button>
+                <button class="nav" id="logoutBtn"><svg><use href="#i-out" /></svg>Изход</button>
+            </nav>
+            <blockquote class="quote">„Големите цели започват с добър план!“<svg class="crown"><use href="#crown" /></svg></blockquote>
+        </aside>
+
+        <div class="main">
+            <div class="topbar"><span class="hello"><i class="dot"></i><span>Здравей, <b id="welcomeName"></b>!</span></span></div>
+
+            <section data-view="home">
+                <div class="cards">
+                    <article class="metric"><span class="ico in"><svg><use href="#i-down" /></svg></span>
+                        <div><small>Получени</small><strong id="totalIn">0,00 €</strong><em id="totalInBGN">0,00 лв.</em><span class="delta" id="deltaIn"></span></div>
+                    </article>
+                    <article class="metric"><span class="ico out"><svg><use href="#i-up" /></svg></span>
+                        <div><small>Изпратени</small><strong id="totalOut">0,00 €</strong><em id="totalOutBGN">0,00 лв.</em><span class="delta" id="deltaOut"></span></div>
+                    </article>
+                    <article class="metric"><span class="ico bal"><svg><use href="#i-wallet" /></svg></span>
+                        <div><small>Общ баланс</small><strong id="balance">0,00 €</strong><em id="balanceBGN">0,00 лв.</em><span class="delta" id="deltaBal"></span></div>
+                    </article>
                 </div>
-                <div><button id="exportBtn" class="secondary">Експорт CSV</button><label class="importLabel">Импорт
-                        CSV<input id="importFile" type="file" accept=".csv,text/csv"></label><button id="logoutBtn"
-                        class="secondary">Изход</button></div>
-            </div>
-            <div class="cards">
-                <article class="metric"><small>ОБЩО ПОЛУЧИЛ</small><strong id="totalIn">0,00 €</strong><span
-                        id="totalInBGN">0,00 лв.</span></article>
-                <article class="metric"><small>ОБЩО ИЗПРАТИЛ</small><strong id="totalOut">0,00 €</strong><span
-                        id="totalOutBGN">0,00 лв.</span></article>
-                <article class="metric"><small>НЕТНО ДВИЖЕНИЕ</small><strong id="balance">0,00 €</strong><span
-                        id="balanceBGN">0,00 лв.</span></article>
-                <article class="metric"><small>ЗАПИСИ</small><strong id="entryCount">0</strong></article>
-            </div>
-            <div class="layout">
-                <section class="panel">
-                    <h3>Добави движение</h3>
-                    <form id="entryForm"><input id="editingId" type="hidden">
-                        <label>Тип<select id="kind">
-                                <option value="in">Получил</option>
-                                <option value="out">Изпратил</option>
-                            </select></label>
-                        <div class="split"><label>Сума<input id="amount" type="number" min="0.01" step="0.01"
-                                    required></label><label>Валута<select id="currency">
-                                    <option value="EUR">Евро (€)</option>
-                                    <option value="BGN">Лева (лв.)</option>
-                                </select></label></div>
-                        <label>Дата<input id="date" type="date" required></label><label>Бележка<input id="note"
-                                maxlength="120"></label>
-                        <button id="saveEntryBtn">Запази сумата</button><button id="cancelEditBtn" type="button"
-                            class="secondary hidden">Откажи редакцията</button>
-                    </form>
-                    <p class="hint">Курс: 1 € = 1,95583 лв.</p>
+                <section class="panel chartPanel">
+                    <div class="chartHead"><h3>Статистика за месеците</h3><span class="badge" id="chartBadge">0 €</span></div>
+                    <svg id="chart" viewBox="0 0 640 230" preserveAspectRatio="none" role="img" aria-label="Баланс по месеци"></svg>
+                    <div id="chartTip" class="tip hidden" role="status"></div>
                 </section>
-                <section class="panel">
-                    <div class="top">
-                        <h3>История на движенията</h3><button id="clearBtn" class="secondary">Изчисти историята</button>
-                    </div>
-                    <div class="tablewrap">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Дата</th>
-                                    <th>Тип</th>
-                                    <th>Сума</th>
-                                    <th>Бележка</th>
-                                    <th>Еквивалент €</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody id="entriesBody"></tbody>
-                        </table>
-                        <p id="emptyState">Още няма записи.</p>
+                <section class="panel chartPanel overview">
+                    <h3>Финансов преглед</h3>
+                    <div class="avail"><small>Налични сега — след сметки, разходи и плащания по заеми</small><strong id="ovAvail">0,00 €</strong><em id="ovAvailBGN"></em></div>
+                    <div id="ovLines" class="ovLines"></div>
+                    <div class="ovLoans">
+                        <div><small>Остава да изплатиш по заеми</small><b id="ovLoanLeft">0,00 €</b></div>
+                        <div><small>Нетно след изплащане на заемите</small><b id="ovNet">0,00 €</b></div>
                     </div>
                 </section>
-            </div>
-            <section class="panel">
-                <h3>Калкулатор за връщане</h3>
-                <div class="split"><label>Остава за връщане (€)<input id="debt" type="number" value="5000"
-                            min="0"></label><label>Месечна вноска (€)<input id="monthly" type="number" value="300"
-                            min="0.01"></label>
-                    <div><small>Необходими месеци</small><strong id="months">17</strong>
-                        <p id="lastPayment" class="hint"></p>
-                    </div>
+            </section>
+
+            <section data-view="tx" class="hidden">
+                <div class="layout">
+                    <section class="panel">
+                        <h3>Добави движение</h3>
+                        <form id="entryForm"><input id="editingId" type="hidden">
+                            <label>Тип<select id="kind">
+                                    <option value="in">Получил</option>
+                                    <option value="out">Изпратил</option>
+                                </select></label>
+                            <label id="categoryLabel">Категория<select id="category">
+                                    <option value="">Без категория</option>
+                                    <option>Храна</option>
+                                    <option>Сметки</option>
+                                    <option>Транспорт</option>
+                                    <option>Дрогерия</option>
+                                    <option>Забавление</option>
+                                    <option>Здраве</option>
+                                    <option>Други</option>
+                                </select></label>
+                            <div class="split"><label>Сума<input id="amount" type="number" min="0.01" step="0.01"
+                                        required></label><label>Валута<select id="currency">
+                                        <option value="EUR">Евро (€)</option>
+                                        <option value="BGN">Лева (лв.)</option>
+                                    </select></label></div>
+                            <label>Дата<input id="date" type="date" required></label><label>Бележка<input id="note"
+                                    maxlength="120"></label>
+                            <button id="saveEntryBtn">Запази сумата</button><button id="cancelEditBtn" type="button"
+                                class="secondary hidden">Откажи редакцията</button>
+                        </form>
+                        <p class="hint">Курс: 1 € = 1,95583 лв.</p>
+                    </section>
+                    <section class="panel">
+                        <div class="top">
+                            <h3>История на движенията <small>(<span id="entryCount">0</span>)</small></h3>
+                            <div class="actions">
+                                <button id="exportBtn" class="secondary">Експорт CSV</button>
+                                <label class="importLabel">Импорт CSV<input id="importFile" type="file" accept=".csv,text/csv"></label>
+                                <button id="clearBtn" class="danger">Изчисти историята</button>
+                            </div>
+                        </div>
+                        <p id="catSummary" class="chips"></p>
+                        <div class="tablewrap">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Дата</th>
+                                        <th>Тип</th>
+                                        <th>Категория</th>
+                                        <th>Сума</th>
+                                        <th>Бележка</th>
+                                        <th>Еквивалент €</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="entriesBody"></tbody>
+                            </table>
+                            <p id="emptyState">Още няма записи.</p>
+                        </div>
+                    </section>
                 </div>
             </section>
-        </section>
-    </main>
+
+            <section data-view="loans" class="hidden">
+                <div class="layout">
+                    <section class="panel">
+                        <h3>Добави заем</h3>
+                        <form id="loanForm">
+                            <label>Заем (име / към кого)<input id="loanName" maxlength="60" required></label>
+                            <div class="split"><label>Обща сума<input id="loanTotal" type="number" min="0.01" step="0.01"
+                                        required></label><label>Валута<select id="loanCurrency">
+                                        <option value="EUR">Евро (€)</option>
+                                        <option value="BGN">Лева (лв.)</option>
+                                    </select></label></div>
+                            <div class="split"><label>Платено преди това<input id="loanPaid" type="number" min="0" step="0.01"
+                                        value="0"></label><label>Месечна вноска<input id="loanMonthly" type="number" min="0"
+                                        step="0.01" value="0"></label></div>
+                            <label>Дата на заема<input id="loanDate" type="date"></label>
+                            <label>Бележка<input id="loanNote" maxlength="120"></label>
+                            <button id="saveLoanBtn">Запази заема</button><button id="cancelLoanBtn" type="button"
+                                class="secondary hidden">Откажи редакцията</button>
+                        </form>
+                    </section>
+                    <section class="panel">
+                        <div class="top">
+                            <h3>Транзакции заеми <small>(<span id="loanCount">0</span>)</small></h3>
+                            <strong id="loanRemaining" class="loanRemaining"></strong>
+                        </div>
+                        <div class="tablewrap">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Заем</th>
+                                        <th>Обща сума</th>
+                                        <th>Платено</th>
+                                        <th>Остава</th>
+                                        <th>Вноска</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="loansBody"></tbody>
+                            </table>
+                            <p id="loanEmpty">Още няма добавени заеми.</p>
+                        </div>
+                    </section>
+                </div>
+            </section>
+
+            <section data-view="calc" class="hidden">
+                <section class="panel">
+                    <h3>Калкулатор за връщане</h3>
+                    <div class="split"><label>Остава за връщане (€)<input id="debt" type="number" value="5000"
+                                min="0"></label><label>Месечна вноска (€)<input id="monthly" type="number" value="300"
+                                min="0.01"></label>
+                        <div><small>Необходими месеци</small><strong id="months">17</strong>
+                            <p id="lastPayment" class="hint"></p>
+                        </div>
+                    </div>
+                </section>
+            </section>
+        </div>
+    </div>
+
+    <dialog id="payDialog">
+        <form id="payForm" method="dialog">
+            <h3 id="payTitle">Ново плащане</h3>
+            <label>Сума<input id="payAmount" type="number" min="0.01" step="0.01" required></label>
+            <label>Дата<input id="payDate" type="date" required></label>
+            <label>Бележка<input id="payNote" maxlength="120"></label>
+            <button id="paySaveBtn">Запази плащането</button><button id="payCancelBtn" type="button" class="secondary">Откажи</button>
+        </form>
+    </dialog>
+
+    <div id="toast" class="toast hidden" role="status"><span class="ok">✓</span><div><b id="toastTitle"></b><small id="toastText"></small></div></div>
     <script src="script.js"></script>
 </body>
 
